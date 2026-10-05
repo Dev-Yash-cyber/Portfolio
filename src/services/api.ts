@@ -5,6 +5,8 @@ import { blogPostsData } from '../data/blogData';
 import { skillsData } from '../data/skillsData';
 
 // Local storage keys for resilient offline fallback
+const API_URL = import.meta.env.VITE_API_URL ? (import.meta.env.VITE_API_URL as string).replace(/\/+$/, '') : '';
+
 const STORAGE_KEYS = {
   INQUIRIES: 'yb_portfolio_inquiries',
   PROJECTS: 'yb_portfolio_projects',
@@ -69,7 +71,7 @@ export const api = {
   // Inquiries
   async submitInquiry(data: Omit<ContactInquiry, 'id' | 'createdAt' | 'status'>): Promise<ContactInquiry> {
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch(`${API_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -94,7 +96,7 @@ export const api = {
   async getInquiries(): Promise<ContactInquiry[]> {
     try {
       const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
-      const response = await fetch('/api/admin/messages', {
+      const response = await fetch(`${API_URL}/api/admin/messages`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.ok) {
@@ -108,7 +110,7 @@ export const api = {
   async updateInquiryStatus(id: string, status: ContactInquiry['status']): Promise<void> {
     try {
       const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
-      await fetch(`/api/admin/messages/${id}`, {
+      await fetch(`${API_URL}/api/admin/messages/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +128,7 @@ export const api = {
   async deleteInquiry(id: string): Promise<void> {
     try {
       const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
-      await fetch(`/api/admin/messages/${id}`, {
+      await fetch(`${API_URL}/api/admin/messages/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -140,7 +142,7 @@ export const api = {
   // Projects
   async getProjects(): Promise<Project[]> {
     try {
-      const response = await fetch('/api/projects');
+      const response = await fetch(`${API_URL}/api/projects`);
       if (response.ok) {
         const data = await response.json();
         if (Array.isArray(data)) {
@@ -187,7 +189,7 @@ export const api = {
     }
 
     try {
-      const response = await fetch('/api/projects', {
+      const response = await fetch(`${API_URL}/api/projects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(project),
@@ -217,7 +219,7 @@ export const api = {
     } catch {}
 
     try {
-      await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+      await fetch(`${API_URL}/api/projects/${id}`, { method: 'DELETE' });
     } catch (err) {
       console.warn('Backend delete project warning:', err);
     }
@@ -226,7 +228,7 @@ export const api = {
   // Blog
   async getBlogPosts(): Promise<BlogPost[]> {
     try {
-      const response = await fetch('/api/blog');
+      const response = await fetch(`${API_URL}/api/blog`);
       if (response.ok) {
         const data = await response.json();
         if (Array.isArray(data)) {
@@ -273,7 +275,7 @@ export const api = {
     }
 
     try {
-      const response = await fetch('/api/blog', {
+      const response = await fetch(`${API_URL}/api/blog`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(post),
@@ -303,7 +305,7 @@ export const api = {
     } catch {}
 
     try {
-      await fetch(`/api/blog/${id}`, { method: 'DELETE' });
+      await fetch(`${API_URL}/api/blog/${id}`, { method: 'DELETE' });
     } catch (err) {
       console.warn('Backend delete blog warning:', err);
     }
@@ -312,7 +314,7 @@ export const api = {
   // Settings
   async getSettings(): Promise<DeveloperInfo> {
     try {
-      const response = await fetch('/api/settings');
+      const response = await fetch(`${API_URL}/api/settings`);
       if (response.ok) {
         const data = await response.json();
         if (data && data.name) {
@@ -327,7 +329,7 @@ export const api = {
   async updateSettings(settings: DeveloperInfo): Promise<DeveloperInfo> {
     localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
     try {
-      await fetch('/api/settings', {
+      await fetch(`${API_URL}/api/settings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(settings),
@@ -339,7 +341,7 @@ export const api = {
   // Newsletter
   async subscribeNewsletter(email: string): Promise<{ success: boolean; message: string }> {
     try {
-      const response = await fetch('/api/newsletter', {
+      const response = await fetch(`${API_URL}/api/newsletter`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
