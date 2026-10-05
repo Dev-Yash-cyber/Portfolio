@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <rect width="100" height="100" rx="24" fill="#070913"/>
+  <rect x="2" y="2" width="96" height="96" rx="22" stroke="url(#grad)" stroke-width="3" stroke-opacity="0.6"/>
+  <path d="M26 30L42 54V74H32V58L16 30H26Z" fill="#38BDF8"/>
+  <path d="M50 30H68C76 30 82 34.5 82 41C82 45.5 78.5 49 73 50.5C79.5 52 84 56.5 84 63C84 70.5 77 74 68 74H50V30ZM60 48H67C71 48 73.5 45.5 73.5 42C73.5 38.5 71 36.5 67 36.5H60V48ZM60 67.5H68C72.5 67.5 75.5 65 75.5 61C75.5 57 72.5 54.5 68 54.5H60V67.5Z" fill="url(#blueGrad)"/>
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8"/>
+      <stop offset="0.5" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="50" y1="30" x2="84" y2="74" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#818CF8"/>
+    </linearGradient>
+  </defs>
+</svg>
