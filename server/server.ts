@@ -364,6 +364,24 @@ app.delete('/api/admin/messages/:id', requireAdmin, async (req, res) => {
   res.json({ success: true });
 });
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve frontend static assets from dist
+const distPath = path.resolve(__dirname, '../dist');
+app.use(express.static(distPath));
+
+// SPA catch-all fallback for client-side routing
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ error: 'API endpoint not found' });
+  }
+  res.sendFile(path.join(distPath, 'index.html'));
+});
+
 // Start Server
 const portNumber = Number(PORT) || 5000;
 app.listen(portNumber, '0.0.0.0', () => {
