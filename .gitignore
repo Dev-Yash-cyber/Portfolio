@@ -8,6 +8,9 @@ dist/
 build/
 dist-ssr/
 *.local
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
 
 # Environment variables
 .env
